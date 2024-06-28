@@ -22,4 +22,4 @@ def send_sms(to_number, message):
 
 # Example usage
 message = '''מה נשמע הלל? הכל טוב?'''
-send_sms(f'{config.RECIPIENT_NUMBER}', message)
+send_sms(config.RECIPIENT_NUMBER, message)

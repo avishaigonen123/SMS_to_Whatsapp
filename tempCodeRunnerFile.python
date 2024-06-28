@@ -1,0 +1,63 @@
+import config
+import requests
+
+# API configuration from config.py
+apiUrl = config.API_URL
+idInstance = config.ID_INSTANCE
+apiTokenInstance = config.API_TOKEN_INSTANCE
+
+chat_id = config.CHAT_ID
+
+def get_last_message_id(chat_id):
+    # Implement your logic to retrieve the last message ID here
+    pass
+
+def fetch_latest_message(chat_id):
+    url = f"{apiUrl}/waInstance{idInstance}/getChatHistory/{apiTokenInstance}"
+    payload = {
+        "chatId": chat_id,
+        "count": 1
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        if response.status_code == 200:
+            messages = response.json()
+            if messages:
+                latest_message = messages[0]
+                print(f"Latest message: {latest_message.get('textMessage', 'No text found')}")
+                mark_message_as_read(chat_id, latest_message['idMessage'])  # Mark message as read
+            else:
+                print(f"No messages found in chat {chat_id}")
+        else:
+            print(f"Error fetching messages: {response.status_code} - {response.text}")
+    except requests.RequestException as e:
+        print(f"Request error: {e}")
+
+def mark_message_as_read(chat_id, message_id):
+    url = f"{apiUrl}/waInstance{idInstance}/readChat/{apiTokenInstance}"
+    payload = {
+        "chatId": chat_id,
+        "idMessage": message_id
+    }
+    headers = {
+        "Content-Type": "application/json"
+    }
+    try:
+        response = requests.post(url, headers=headers, json=payload)
+        if response.status_code == 200:
+            result = response.json()
+            if result.get("setRead"):
+                print(f"Marked message {message_id} in chat {chat_id} as read.")
+            else:
+                print(f"Failed to mark message {message_id} in chat {chat_id} as read: {result}")
+        else:
+            print(f"Error marking message {message_id} in chat {chat_id} as read: {response.status_code} - {response.text}")
+    except requests.RequestException as e:
+        print(f"Request error: {e}")
+
+# Example usage:
+if __name__ == '__main__':
+    fetch_latest_message(chat_id)
