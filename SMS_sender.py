@@ -21,5 +21,6 @@ def send_sms(to_number, message):
         print(f"Failed to send SMS: {e}")
 
 # Example usage
-message = '''מה נשמע הלל? הכל טוב?'''
-send_sms(config.RECIPIENT_NUMBER, message)
+def main():
+    message = '''מה נשמע הלל? הכל טוב?'''
+    send_sms(config.RECIPIENT_NUMBER, message)
