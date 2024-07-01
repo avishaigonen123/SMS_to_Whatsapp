@@ -25,12 +25,13 @@ for message in last_messages[::-1]:
     # Calculate the time difference
     time_difference = current_time - message_time
     print(time_difference)
-    # Check if the time difference is greater than 2 hours
+    # Check if the time difference is greater than 30 minutes
     # i wanna check every two hours, and if got messages within this timestamp, send it
-    if time_difference > timedelta(hours=2):
-        print(f"Skipping message received at {readable_time}, older than 2 hours.")
+    if time_difference > timedelta(minutes=30):
+        print(f"Skipping message received at {readable_time}, older than 30 minutes.")
         continue
-    
+
+    # new messages that should be sent
     print(f"Message time is: {readable_time}")
     print(message['textMessage'])
     content_splitted = message['textMessage'].split('\n')
