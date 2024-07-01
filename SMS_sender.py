@@ -24,3 +24,5 @@ def send_sms(to_number, message):
 def main():
     message = '''מה נשמע הלל? הכל טוב?'''
     send_sms(config.RECIPIENT_NUMBER, message)
+
+# main()
