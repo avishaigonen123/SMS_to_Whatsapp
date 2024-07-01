@@ -1,3 +1,4 @@
+import time
 import config
 import SMS_sender
 import Whatsapp_reader
@@ -35,6 +36,8 @@ for message in last_messages[::-1]:
     content_splitted = message['textMessage'].split('\n')
     for paragraph in content_splitted:
         print(paragraph)
-        SMS_sender.send_sms(config.RECIPIENT_NUMBER, paragraph)
+        time.sleep(5)
+        if paragraph:
+            SMS_sender.send_sms(config.RECIPIENT_NUMBER, paragraph)
 
 Whatsapp_reader.mark_message_as_read(config.CHAT_ID, "") # mark all messages as read
